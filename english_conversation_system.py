@@ -1,3 +1,5 @@
+# Python 3.11.4
+
 import pyaudio
 import wave
 import asyncio
@@ -9,9 +11,8 @@ import random
 import readchar
 import threading
 from openai import OpenAI
+
 client = OpenAI(api_key='') # ここにAPIキーを入力して下さい
-
-
 
 FORMAT = pyaudio.paInt16
 CHANNELS = 1
@@ -63,7 +64,6 @@ def speech_to_text():
             model="whisper-1", 
             file=audio_file,
         )
-        # print(f'response: {response}')
         user_content = response.text
         
 
@@ -73,7 +73,6 @@ def chatgpt_api():
         model="gpt-3.5-turbo",
         messages=chatgpt_messages
     )
-    # print(f'response: {response}')
     chatgpt_content = response.choices[0].message.content
 
 
@@ -107,18 +106,14 @@ def play_mp3_file():
     global mp3_output_filename
     # Pygameの初期化
     pygame.init()
-
     try:
         # MP3ファイルの読み込み
         pygame.mixer.music.load(mp3_output_filename)
-
         # 音声の再生
         pygame.mixer.music.play()
-
         # 再生中かどうかを確認し、再生が終了するまで待機
         while pygame.mixer.music.get_busy():
             time.sleep(1)
-
     except pygame.error as e:
         print(f"Error: {e}")
     finally:
@@ -133,7 +128,6 @@ def main():
     chatgpt_api()
     chatgpt_content = chatgpt_content.replace('\n','')
     chatgpt_messages.append({'role': 'assistant', 'content': chatgpt_content})
-    # print(f'chatgpt_messages: {chatgpt_messages}')
     print(f'User: {user_content}')
     print(f'ChatGPT: {chatgpt_content}')
     text_to_speech()
